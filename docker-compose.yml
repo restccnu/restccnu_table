@@ -1,0 +1,10 @@
+# ------------- restccnu_table --------------
+restccnu_table:
+    build: .
+    env_file:
+        - table.env
+    command: gunicorn --name table -b 0.0.0.0:5555 -w 2 wsgi:app
+    ports:
+        - "5555:5555"
+    volumes:
+        - .:/restccnu_table
