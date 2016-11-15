@@ -1,4 +1,13 @@
 # coding: utf-8
+"""
+    table.py
+    ````````
+
+    课表爬虫
+
+    :MAINTAINER: neo1218
+    :OWNER: muxistudio
+"""
 
 import random
 import json
@@ -9,12 +18,18 @@ from . import table_test_url
 from . import table_index_url
 from . import link_index_url
 from . import headers, proxy
-# from . import proxy
 
 
 def get_table(s, sid, xnm, xqm):
     """
-    s: 信息门户登录操作句柄
+    :function: get_table
+    :args:
+        - s: 爬虫session对象
+        - sid: 学号
+        - xnm: 学年
+        - xqm: 学期
+
+    信息门户课表爬虫
     """
     test_url = table_test_url
     table_url = table_index_url % sid
@@ -29,6 +44,10 @@ def get_table(s, sid, xnm, xqm):
         if '(' in _weeks:
             weeks =  _weeks.split('(')
             time = weeks[0]; mode = weeks[-1]
+            if ',' in time:
+                times = time.split(',')
+                weeks_list.append(times[0][:-1])
+                time = times[1]
             _time = time.split('-')
             _start = int(_time[0]); _last = int(_time[-1][:-1])
             if mode:
@@ -43,7 +62,7 @@ def get_table(s, sid, xnm, xqm):
                     weeks_list += _weeks_list
                 else:
                     weeks_list.append(week[:-1])
-        elif '-' in _weeks:
+        elif '-' in _weeks: 
             weeks = _weeks.split('-')
             _start = int(weeks[0]); _last = int(weeks[-1][:-1])
             weeks_list = range(_start, _last+1)
