@@ -6,9 +6,8 @@ from datetime import timedelta
 
 class Config(object):
 
-    XNM = 2016
-    XQM = 3
-
+    XNM = os.getenv("RESTCCNU_XNM")
+    XQM = os.getenv("RESTCCNU_XQM")
 
 config = {
     'develop': Config,
